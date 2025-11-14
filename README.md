@@ -59,6 +59,8 @@ Matching rules trigger one or more possible medical conditions.
 | **RAG Retrieval** | Semantic matching  | Variants of symptoms, contextual knowledge |
 | **LLM API**       | Adaptive reasoning | Combining logic + retrieved data           |
 
+<img width="1116" height="565" alt="download" src="https://github.com/user-attachments/assets/081906f7-639f-40e3-b23b-035170293208" />
+
 
 
 ## 📚 Knowledge Base (Example)
