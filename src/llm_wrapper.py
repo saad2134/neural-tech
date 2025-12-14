@@ -3,14 +3,28 @@ Thin wrapper to call an LLM.
 Supports:
  - google.generativeai (Gemini)
 
-Loads API keys from environment variables (python-dotenv).
+Loads API keys from Streamlit secrets (cloud) or environment variables (local).
 """
 
 import os
 from typing import Optional
-from dotenv import load_dotenv
 
-load_dotenv()  # ensure .env is loaded before anything else
+# --- Try Streamlit secrets first ---
+GENAI_KEY: Optional[str] = None
+try:
+    import streamlit as st
+    GENAI_KEY = st.secrets.get("GOOGLE_API_KEY")
+except Exception:
+    pass
+
+# --- Fallback to environment variables (.env locally) ---
+if not GENAI_KEY:
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except Exception:
+        pass
+    GENAI_KEY = os.getenv("GOOGLE_API_KEY")
 
 
 # --- Import Gemini ---
@@ -22,18 +36,16 @@ except Exception:
     GENAI_AVAILABLE = False
 
 
-# --- Load API Key ---
-GENAI_KEY = os.getenv("GOOGLE_API_KEY")
-
+# --- Configure Gemini ---
 if GENAI_AVAILABLE and GENAI_KEY:
     try:
         genai.configure(api_key=GENAI_KEY)
     except Exception as e:
-        print(f"[Gemini] Configuration error: {e}")
         GENAI_AVAILABLE = False
+        print(f"[Gemini] Configuration error: {e}")
 
 
-# --- Model you requested ---
+# --- Model ---
 MODEL_NAME = "gemini-2.5-flash"
 
 
@@ -46,10 +58,15 @@ SAFETY_PREFIX = (
 def generate_with_llm(prompt: str, max_tokens: int = 500) -> str:
     """
     Call Gemini with safety prefix.
-    Raises RuntimeError if something is not configured.
     """
-    if not (GENAI_AVAILABLE and GENAI_KEY):
-        raise RuntimeError("No LLM configured. Set GOOGLE_API_KEY in your .env file.")
+    if not GENAI_AVAILABLE:
+        raise RuntimeError("Gemini SDK not available.")
+
+    if not GENAI_KEY:
+        raise RuntimeError(
+            "GOOGLE_API_KEY not found. "
+            "Set it in Streamlit Secrets or as an environment variable."
+        )
 
     full_prompt = SAFETY_PREFIX + "\n\n" + prompt
 
@@ -57,7 +74,6 @@ def generate_with_llm(prompt: str, max_tokens: int = 500) -> str:
         model = genai.GenerativeModel(MODEL_NAME)
         resp = model.generate_content(full_prompt)
 
-        # Main text output
         text = getattr(resp, "text", None)
         if not text:
             text = str(resp)
