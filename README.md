@@ -1,4 +1,4 @@
-# 🩺 Expert System: Medical Diagnosis
+# 🩺 Neural Tech: Medical Diagnosis
 
 A lightweight hybrid AI framework for modeling, testing, and evaluating medical diagnostic logic.
 
@@ -195,5 +195,5 @@ streamlit run src/streamlit_app.py
 
 ## 🏷 Tags  
 
-`#ExpertSystem` `#MedicalDiagnosis` `#RuleBasedAI` `#RAG` `#RetrievalAugmentedGeneration` `#HybridAI` `#LLMInference` `#AIinHealthcare` `#HealthTech` `#DiagnosticAI` `#MedicalTriage` `#InferenceEngine` `#KnowledgeBase` `#StreamlitApp` `#AIDecisionSupport` `#SymptomChecker` `#ClinicalDecisionSupport` `#AIHealthcareTools` `#MachineReasoning` `#expert-system-medical-diagnosis`
+`#ExpertSystem` `#MedicalDiagnosis` `#RuleBasedAI` `#RAG` `#RetrievalAugmentedGeneration` `#HybridAI` `#LLMInference` `#AIinHealthcare` `#HealthTech` `#DiagnosticAI` `#MedicalTriage` `#InferenceEngine` `#KnowledgeBase` `#StreamlitApp` `#AIDecisionSupport` `#SymptomChecker` `#ClinicalDecisionSupport` `#AIHealthcareTools` `#MachineReasoning` `#expert-system-medical-diagnosis` `NeuralTech`
 

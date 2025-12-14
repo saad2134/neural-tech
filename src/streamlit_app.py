@@ -3,11 +3,20 @@ from rules_engine import RuleEngine
 from hybrid_engine import HybridEngine, load_rag_index
 from llm_wrapper import generate_with_llm
 import pandas as pd
+from PIL import Image
+
 import os
 
-st.set_page_config(page_title="Expert System: Medical Diagnosis", layout="centered")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+favicon = Image.open(os.path.join(BASE_DIR, "favicon.png"))
 
-st.title("Expert System — Medical Diagnosis (Prototype)")
+st.set_page_config(
+    page_title="Neural Tech: Medical Diagnosis",
+    layout="centered",
+    page_icon=favicon
+)
+
+st.title("Neural Tech— Medical Diagnosis (Prototype)")
 st.markdown("**Disclaimer:** Prototype only. This is not medical advice.")
 
 # Sidebar: choose mode
@@ -25,7 +34,7 @@ for i, s in enumerate(SYMPTOMS):
     with cols[i % 3]:
         symptom_flags[s] = st.checkbox(s.replace("_"," "), key=s)
 
-user_text = st.text_area("Optional: Describe your symptoms in your own words (helps RAG/LLM)", height=100)
+user_text = st.text_area("Optional: Describe your symptoms in your own words (Only for LLM mode/window)", height=100)
 
 # buttons
 if st.button("Run"):
