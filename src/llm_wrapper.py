@@ -14,17 +14,24 @@ GENAI_KEY: Optional[str] = None
 try:
     import streamlit as st
     GENAI_KEY = st.secrets.get("GOOGLE_API_KEY")
-except Exception:
-    pass
+    if GENAI_KEY:
+        print(f"[DEBUG] Loaded GOOGLE_API_KEY from Streamlit secrets (ending in ...{GENAI_KEY[-4:]})")
+except Exception as e:
+    print(f"[DEBUG] Could not load from Streamlit secrets: {e}")
 
 # --- Fallback to environment variables (.env locally) ---
 if not GENAI_KEY:
+    print("[DEBUG] Key not in secrets, trying environment variables...")
     try:
         from dotenv import load_dotenv
         load_dotenv()
     except Exception:
         pass
     GENAI_KEY = os.getenv("GOOGLE_API_KEY")
+    if GENAI_KEY:
+        print(f"[DEBUG] Loaded GOOGLE_API_KEY from environment variables (ending in ...{GENAI_KEY[-4:]})")
+    else:
+        print("[DEBUG] GOOGLE_API_KEY not found in environment variables.")
 
 
 # --- Import Gemini ---
